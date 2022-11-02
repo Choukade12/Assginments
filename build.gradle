@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+allprojects(){
+    task first(){
+       print("first task applied to: +$tasks.project.name")
+    }
+}
+subprojects(){
+    task second(){
+        print("Second task applied to: +$tasks.project.name")
+    }
+}
+task third(){
+    print("Hello world")
+}
+task fourth(){
+    dependsOn tasks.third
+    print("fourth task./.gra applied")
+}
+test {
+    useJUnitPlatform()
+}
