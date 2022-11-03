@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'war'
+    id 'org.gretty' version '3.0.9'
 }
 
 group 'org.example'
@@ -8,16 +10,25 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
-
+gretty{
+    httpPort = 8080
+    contextPath ='/'
+    servletContainer = 'tomcat9'
+}
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.23'
     implementation group: 'org.springframework', name: 'spring-web', version: '5.3.23'
+    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.23'
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    implementation 'org.json:json:20220924'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
+
     implementation project(':service')
     implementation project(':model')
 }
 
-tes
+test{
     useJUnitPlatform()
 }
