@@ -1,51 +1,58 @@
 package org.example.entity;
 
-import java.util.UUID;
 
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table (name="Employee")
 public class Employee {
-    private String empName;
-    private UUID empId;
-    private String department;
-    private String address;
+   public Employee() {
+   }
 
-    public Employee() {
-    }
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   @Cascade(org.hibernate.annotations.CascadeType.ALL)
+   private Address address;
 
-    public Employee(String empName, String department, String address) {
-        this.empName = empName;
-        this.department = department;
-        this.address = address;
-    }
+   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+   private List<Department> department;
+   private Integer empID;
 
-    public String getEmpName() {
-        return empName;
-    }
+   public List<Department> getDepartment() {
+      return department;
+   }
 
-    public void setEmpName(String empName) {
-        this.empName = empName;
-    }
+   public void setDepartment(List<Department> department) {
+      this.department = department;
+   }
 
-    public UUID getEmpId() {
-        return empId;
-    }
+   @Column(name = "EmpName")
+   private String name;
 
-    public void setEmpId(UUID empId) {
-        this.empId = empId;
-    }
+   public Address getAddress() {
+      return address;
+   }
 
-    public String getDepartment() {
-        return department;
-    }
+   public void setAddress(Address address) {
+      this.address = address;
+   }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+   public Integer getEmpID() {
+      return empID;
+   }
 
-    public String getAddress() {
-        return address;
-    }
+   public void setEmpID(Integer empID) {
+      this.empID = empID;
+   }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
 }

@@ -6,14 +6,17 @@ group 'org.example'
 version '1.0-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.6.12.Final'
+    implementation 'org.hibernate:hibernate-core:5.6.12.Final'
+    implementation 'mysql:mysql-connector-java:8.0.31'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation 'mysql:mysql-connector-java:8.0.31'
+
 }
 
 test {

@@ -1,84 +1,74 @@
 package org.example.service;
 
 import org.example.entity.Employee;
-import org.jetbrains.annotations.NotNull;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import java.sql.SQLException;
 
+
 public class EmployeeServiceImple implements EmployeeService{
-    Connection con = DriverManager.getConnection("Jdbc:mysql://localhost:3306/jdbcdemo", "root", "Shubhi12*");
-
-         Employee emp = new Employee();
-
-    public EmployeeServiceImple() throws SQLException {
+    private final SessionFactory sessionFactory;
+    public EmployeeServiceImple(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+    @Override
+    public void createEmployee(Employee emp) throws SQLException {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(emp);
+        transaction.commit();
+        System.out.println("Employee Created");
     }
 
     @Override
-        public void createEmployee (@NotNull Employee emp) throws SQLException, NullPointerException{
-        //this.emp = emp;
-       // UUID id = emp.getEmpId();
-        UUID id  = UUID.randomUUID();
-        String name = emp.getEmpName();
-        String dept = emp.getDepartment();
-
-        String add = emp.getAddress();
-        PreparedStatement ps = con.prepareStatement("insert into Employee values (?,?,?,?)");
-        String string = id.toString();
-        ps.setString(1, string);
-        ps.setString(2, name);
-        ps.setString(3, dept);
-        ps.setString(4, add);
-        ps.executeUpdate();
-        System.out.println("New employee created");
+    public void updateEmployee(Integer id, Employee emp) throws SQLException {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Employee employee = session.get(Employee.class, id);
+        if(employee!=null){
+            session.update(emp);
+            System.out.print("Employee updated successfully");
+        }
+        else {
+            System.out.println("This employee doesn't exists");
+        }
+        transaction.commit();
     }
 
-        @Override
-        public void updateEmployee (UUID id, Employee emp) throws SQLException{
-        PreparedStatement ps = con.prepareStatement("select * from Employee where empid = ?");
-        ps.setString(1, String.valueOf(id));
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            PreparedStatement ps1 = con.prepareStatement("update Employee set empname = ? where empid = ?");
-            ps1.setString(1,emp.getEmpName());
-            ps1.setString(2,String.valueOf(id));
-            ps1.executeUpdate();
-            System.out.println("Value updated");
+    @Override
+    public void deleteEmployee(Integer id) throws SQLException {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Employee employee = session.get(Employee.class, id);
+        if(employee!=null){
+            session.delete(employee);
+            System.out.print("Employee deleted successfully");
+
+        }
+        else{
+            System.out.println("This employee doesn't exists");
+        }
+        transaction.commit();
+    }
+
+    @Override
+    public void getAllEmployee() throws SQLException {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        NativeQuery<Employee> nativeQuery = session.createNativeQuery("select * from Employee", (Class) Employee.class);
+        for(Employee emp:nativeQuery.getResultList()){
+            System.out.print(emp.getEmpID());
+            System.out.print(emp.getName());
+            System.out.print(emp.getAddress());
+           if(!emp.getDepartment().isEmpty()){
+               emp.getDepartment().stream().forEach(s->System.out.print(s));
+           }
         }
     }
-
-        @Override
-        public void deleteEmployee (UUID id) throws SQLException{
-            PreparedStatement ps = con.prepareStatement("select * from Employee where empid = ?");
-            ps.setString(1, String.valueOf(id));
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                PreparedStatement ps1 = con.prepareStatement("delete from Employee where empid=?");
-                ps1.executeUpdate();
-            }
-            System.out.println("deleted successfully");
-    }
-
-        @Override
-        public List<Employee> getAllEmployee () throws SQLException{
-        List<Employee> ls = new ArrayList<>();
-        PreparedStatement ps = con.prepareStatement("select * from Employee");
-        ResultSet rs = ps.executeQuery();
-        while(rs.next()){
-            Employee emp1 = null;
-            emp1.setEmpId(UUID.fromString(String.valueOf(rs.getString(1))));
-            emp1.setEmpName(rs.getString(2));
-            emp1.setDepartment(rs.getString(3));
-            emp1.setAddress(rs.getString(4));
-            ls.add(emp1);
-        }
-        return ls;
-    }
-    //con.close();
-    }
+}
 
 
 
