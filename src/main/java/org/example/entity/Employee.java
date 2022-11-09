@@ -12,14 +12,16 @@ public class Employee {
    public Employee() {
    }
 
-   @Id
-   @GeneratedValue(strategy = GenerationType.AUTO)
+   @OneToOne
+   @JoinColumn(name = "addressId")
    @Cascade(org.hibernate.annotations.CascadeType.ALL)
    private Address address;
 
-   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+   @OneToMany(mappedBy = "employee")
    private List<Department> department;
-   private Integer empID;
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private Integer id;
 
    public List<Department> getDepartment() {
       return department;
@@ -32,6 +34,7 @@ public class Employee {
    @Column(name = "EmpName")
    private String name;
 
+
    public Address getAddress() {
       return address;
    }
@@ -40,16 +43,18 @@ public class Employee {
       this.address = address;
    }
 
-   public Integer getEmpID() {
-      return empID;
-   }
 
-   public void setEmpID(Integer empID) {
-      this.empID = empID;
-   }
 
    public String getName() {
       return name;
+   }
+
+   public Integer getId() {
+      return id;
+   }
+
+   public void setId(Integer id) {
+      this.id = id;
    }
 
    public void setName(String name) {

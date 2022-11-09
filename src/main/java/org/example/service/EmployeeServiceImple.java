@@ -21,6 +21,7 @@ public class EmployeeServiceImple implements EmployeeService{
         session.save(emp);
         transaction.commit();
         System.out.println("Employee Created");
+        session.close();
     }
 
     @Override
@@ -36,6 +37,7 @@ public class EmployeeServiceImple implements EmployeeService{
             System.out.println("This employee doesn't exists");
         }
         transaction.commit();
+        session.close();
     }
 
     @Override
@@ -60,7 +62,7 @@ public class EmployeeServiceImple implements EmployeeService{
         Transaction transaction = session.beginTransaction();
         NativeQuery<Employee> nativeQuery = session.createNativeQuery("select * from Employee", (Class) Employee.class);
         for(Employee emp:nativeQuery.getResultList()){
-            System.out.print(emp.getEmpID());
+            System.out.print(emp.getId());
             System.out.print(emp.getName());
             System.out.print(emp.getAddress());
            if(!emp.getDepartment().isEmpty()){
