@@ -18,7 +18,7 @@ public class Asset {
     @Column(name = "assetName")
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "asset")
     private List<Employee> employee;
 
     public Integer getAssetId() {

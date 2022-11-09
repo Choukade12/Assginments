@@ -7,31 +7,19 @@ import javax.persistence.*;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer addressid;
     @Column
     private String city;
 
     public Address() {
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Employee employee;
-
-    public Employee getEmployee() {
-        return employee;
+    public Integer getAddressid() {
+        return addressid;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAddressid(Integer addressid) {
+        this.addressid = addressid;
     }
 
     public String getCity() {

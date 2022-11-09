@@ -13,7 +13,7 @@ public class Employee {
    }
 
 @OneToOne(cascade = CascadeType.ALL)
-@JoinColumn(name = "id")
+@JoinColumn(name = "addressid")
    private Address address;
 
    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")

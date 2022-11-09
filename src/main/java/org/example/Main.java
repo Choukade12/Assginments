@@ -23,7 +23,7 @@ public class Main {
         //Create new employee
         Configuration configuration = new Configuration().configure().addAnnotatedClass(Employee.class).addAnnotatedClass(Address.class).addAnnotatedClass(Department.class).addAnnotatedClass(Asset.class);
         SessionFactory sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
-        Department department = new Department();
+       Department department = new Department();
         Employee emp = new Employee();
         Address address = new Address();
 
@@ -32,14 +32,18 @@ public class Main {
         empList.add(emp);
         List<Asset> listAsset = createAsset(empList);
         address.setCity("Pune");
-        /*AddressServiceImple addressServiceImple = new AddressServiceImple(sessionFactory);
-        addressServiceImple.saveAdd(address);*/
+        //AddressServiceImple addressServiceImple = new AddressServiceImple(sessionFactory);
+        //addressServiceImple.saveAdd(address);
         emp.setName("Shubhi");
         emp.setAddress(address);
         emp.setDepartment(listDepartment);
         emp.setAsset(listAsset);
         EmployeeService employeeService = new EmployeeServiceImple(sessionFactory);
         employeeService.createEmployee(emp);
+        /*Employee emp = new Employee();
+        emp.setName("Abhi");
+        EmployeeService employeeService = new EmployeeServiceImple(sessionFactory);
+        employeeService.deleteEmployee(155);*/
     }
 
     public static List<Asset> createAsset(List<Employee> emp){
