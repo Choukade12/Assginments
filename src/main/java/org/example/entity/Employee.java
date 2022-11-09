@@ -17,7 +17,7 @@ public class Employee {
    @Cascade(org.hibernate.annotations.CascadeType.ALL)
    private Address address;
 
-   @OneToMany(mappedBy = "employee")
+   @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
    private List<Department> department;
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)

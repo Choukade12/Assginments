@@ -27,8 +27,8 @@ public class Main {
         List<Department> listDepartment = createList(emp);
         Address address = new Address();
         address.setCity("Pune");
-        *//*AddressServiceImple addressServiceImple = new AddressServiceImple(sessionFactory);
-        addressServiceImple.saveAdd(address);*//*
+        /*AddressServiceImple addressServiceImple = new AddressServiceImple(sessionFactory);
+        //addressServiceImple.saveAdd(address);
         emp.setName("Shubhi");
         emp.setAddress(address);
         emp.setDepartment(listDepartment);
@@ -41,6 +41,9 @@ public class Main {
 
         emp1.setDepartment(listDepartment1);
         employeeService.createEmployee(emp1);*/
+        EmployeeService employeeService = new EmployeeServiceImple(sessionFactory);
+        //Employee emp2 = new Employee();
+        employeeService.deleteEmployee(48);
 
 
     }
