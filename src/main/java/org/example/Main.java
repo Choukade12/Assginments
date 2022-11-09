@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.entity.Address;
+import org.example.entity.Asset;
 import org.example.entity.Department;
 import org.example.entity.Employee;
 import org.example.service.AddressService;
@@ -20,20 +21,38 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws SQLException{
         //Create new employee
-        Configuration configuration = new Configuration().configure().addAnnotatedClass(Employee.class).addAnnotatedClass(Address.class).addAnnotatedClass(Department.class);
+        Configuration configuration = new Configuration().configure().addAnnotatedClass(Employee.class).addAnnotatedClass(Address.class).addAnnotatedClass(Department.class).addAnnotatedClass(Asset.class);
         SessionFactory sessionFactory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
         Department department = new Department();
         Employee emp = new Employee();
-        List<Department> listDepartment = createList(emp);
         Address address = new Address();
+
+        List<Department> listDepartment = createList(emp);
+        List<Employee> empList = new ArrayList<>();
+        empList.add(emp);
+        List<Asset> listAsset = createAsset(empList);
         address.setCity("Pune");
-        AddressServiceImple addressServiceImple = new AddressServiceImple(sessionFactory);
-        addressServiceImple.saveAdd(address);
+        /*AddressServiceImple addressServiceImple = new AddressServiceImple(sessionFactory);
+        addressServiceImple.saveAdd(address);*/
         emp.setName("Shubhi");
         emp.setAddress(address);
         emp.setDepartment(listDepartment);
+        emp.setAsset(listAsset);
         EmployeeService employeeService = new EmployeeServiceImple(sessionFactory);
         employeeService.createEmployee(emp);
+    }
+
+    public static List<Asset> createAsset(List<Employee> emp){
+        List<Asset> list = new ArrayList<>();
+        Asset asset = new Asset();
+        asset.setName("laptop");
+        asset.setEmployee(emp);
+        Asset asset1 = new Asset();
+        asset1.setName("laptop and mouse");
+        asset1.setEmployee(emp);
+        list.add(asset1);
+        list.add(asset);
+        return list;
     }
 
     public static List<Department> createList(Employee emp){

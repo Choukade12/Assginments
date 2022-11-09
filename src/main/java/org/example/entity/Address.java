@@ -11,6 +11,21 @@ public class Address {
     @Column
     private String city;
 
+    public Address() {
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+
     public Integer getId() {
         return id;
     }
