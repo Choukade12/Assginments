@@ -1,0 +1,13 @@
+#spring:
+#  security:
+#    user:
+#      name: shubhi
+#      password: 123
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/Security
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: Shubhi12*
+server:
+  port: 9070
